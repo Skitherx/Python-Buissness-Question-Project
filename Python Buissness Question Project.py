@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 #-------------------------------------------------Question 1--------------------------------------------------------------#
 
 
-# In[90]:
+# In[ ]:
 
 
 #Import Pandas(For Data Analyisis), Seaborn(For the scatter plot heat map), 
@@ -25,7 +25,7 @@ tv=pd.read_csv('D:/TELEVISION.csv', encoding= 'unicode_escape')
 tv.columns = ['Brand Name','Stars','Ratings','Reviews','Current Price', 'MSRP', 'Services','OS','Picture Quality','Speakers','Frequency']
 
 
-# In[91]:
+# In[ ]:
 
 
 #Converts from Indian ruppes to USD in real time
@@ -34,7 +34,7 @@ tv['Current Price'] = cr.convert("INR","USD",tv['Current Price'])
 tv['MSRP'] = cr.convert("INR","USD",tv['MSRP'])
 
 
-# In[92]:
+# In[ ]:
 
 
 #Makes seperate list for tv's with certain attributes
@@ -60,7 +60,7 @@ rr2 = tv.loc[tv['Frequency'] == "60 Hz Refresh Rate"]
 rr1 = tv.loc[tv['Frequency'] == "50 Hz Refresh Rate"]
 
 
-# In[93]:
+# In[ ]:
 
 
 #Creates a empty dictonary, key = index, value = Features Score
@@ -70,7 +70,7 @@ for index, row in tv.iterrows():
     scores.update(base)
 
 
-# In[94]:
+# In[ ]:
 
 
 #Take the tables created above and uses their postion in the original table to assign the correct index and score
@@ -116,7 +116,7 @@ for index, row in rr1.iterrows():
 #print(scores) 
 
 
-# In[95]:
+# In[ ]:
 
 
 #Swaps the columns and rows and uses the dictonairy index for the tables index then combines the tables on the index
@@ -125,7 +125,7 @@ scores_table.columns = ['Features Score']
 final_table = pd.concat([tv, scores_table], axis =1)
 
 
-# In[96]:
+# In[ ]:
 
 
 #Sorts and displays the top ten scores by Features Score from final_table_sorted
@@ -139,7 +139,7 @@ final_table_sorted.head(10)
 #-------------------------------------------------Question 2--------------------------------------------------------------#
 
 
-# In[97]:
+# In[ ]:
 
 
 #Creates a table where there has to be at least 1 rating then displays the top ten products with the highest stars
@@ -148,24 +148,18 @@ ratings_table_sorted = ratings_table.sort_values(by=['Stars'], ascending = False
 ratings_table_sorted.head(10)
 
 
-# In[102]:
+# In[ ]:
 
 
 #Scatter plot showing Current Price vs. Stars
 ratings_table.plot.scatter(x = 'Stars', y = 'Current Price', figsize=(15, 8),yticks = [100,200,300,400,500,600,700,800,900,1000,1100,1200,1300])
 
 
-# In[109]:
+# In[ ]:
 
 
 #Scatter plot displaying Feature score vs. Stars with the density of tv's being represented by colors
 plt.figure(figsize = (15,8))
 counts = ratings_table.groupby(by=['Features Score','Stars']).size().to_frame('Amount of Televisions').reset_index()
 sns.scatterplot(data=counts, x='Stars', y='Features Score', hue='Amount of Televisions')
-
-
-# In[ ]:
-
-
-
 
